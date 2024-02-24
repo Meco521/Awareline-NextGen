@@ -1,0 +1,138 @@
+/*     */ package net.minecraft.network.play.client;
+/*     */ 
+/*     */ import net.minecraft.entity.player.PlayerCapabilities;
+/*     */ import net.minecraft.network.INetHandler;
+/*     */ import net.minecraft.network.Packet;
+/*     */ import net.minecraft.network.PacketBuffer;
+/*     */ import net.minecraft.network.play.INetHandlerPlayServer;
+/*     */ 
+/*     */ 
+/*     */ public class C13PacketPlayerAbilities
+/*     */   implements Packet<INetHandlerPlayServer>
+/*     */ {
+/*     */   private boolean invulnerable;
+/*     */   private boolean flying;
+/*     */   private boolean allowFlying;
+/*     */   private boolean creativeMode;
+/*     */   private float flySpeed;
+/*     */   private float walkSpeed;
+/*     */   
+/*     */   public C13PacketPlayerAbilities() {}
+/*     */   
+/*     */   public C13PacketPlayerAbilities(PlayerCapabilities capabilities) {
+/*  23 */     this.invulnerable = capabilities.disableDamage;
+/*  24 */     this.flying = capabilities.isFlying;
+/*  25 */     this.allowFlying = capabilities.allowFlying;
+/*  26 */     this.creativeMode = capabilities.isCreativeMode;
+/*  27 */     this.flySpeed = capabilities.getFlySpeed();
+/*  28 */     this.walkSpeed = capabilities.getWalkSpeed();
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public void readPacketData(PacketBuffer buf) {
+/*  35 */     byte b0 = buf.readByte();
+/*  36 */     this.invulnerable = ((b0 & 0x1) > 0);
+/*  37 */     this.flying = ((b0 & 0x2) > 0);
+/*  38 */     this.allowFlying = ((b0 & 0x4) > 0);
+/*  39 */     this.creativeMode = ((b0 & 0x8) > 0);
+/*  40 */     this.flySpeed = buf.readFloat();
+/*  41 */     this.walkSpeed = buf.readFloat();
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public void writePacketData(PacketBuffer buf) {
+/*  48 */     byte b0 = 0;
+/*     */     
+/*  50 */     if (this.invulnerable)
+/*     */     {
+/*  52 */       b0 = (byte)(b0 | 0x1);
+/*     */     }
+/*     */     
+/*  55 */     if (this.flying)
+/*     */     {
+/*  57 */       b0 = (byte)(b0 | 0x2);
+/*     */     }
+/*     */     
+/*  60 */     if (this.allowFlying)
+/*     */     {
+/*  62 */       b0 = (byte)(b0 | 0x4);
+/*     */     }
+/*     */     
+/*  65 */     if (this.creativeMode)
+/*     */     {
+/*  67 */       b0 = (byte)(b0 | 0x8);
+/*     */     }
+/*     */     
+/*  70 */     buf.writeByte(b0);
+/*  71 */     buf.writeFloat(this.flySpeed);
+/*  72 */     buf.writeFloat(this.walkSpeed);
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public void processPacket(INetHandlerPlayServer handler) {
+/*  80 */     handler.processPlayerAbilities(this);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public boolean isInvulnerable() {
+/*  85 */     return this.invulnerable;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setInvulnerable(boolean isInvulnerable) {
+/*  90 */     this.invulnerable = isInvulnerable;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public boolean isFlying() {
+/*  95 */     return this.flying;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setFlying(boolean isFlying) {
+/* 100 */     this.flying = isFlying;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public boolean isAllowFlying() {
+/* 105 */     return this.allowFlying;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setAllowFlying(boolean isAllowFlying) {
+/* 110 */     this.allowFlying = isAllowFlying;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public boolean isCreativeMode() {
+/* 115 */     return this.creativeMode;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setCreativeMode(boolean isCreativeMode) {
+/* 120 */     this.creativeMode = isCreativeMode;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setFlySpeed(float flySpeedIn) {
+/* 125 */     this.flySpeed = flySpeedIn;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void setWalkSpeed(float walkSpeedIn) {
+/* 130 */     this.walkSpeed = walkSpeedIn;
+/*     */   }
+/*     */ }
+
+
+/* Location:              C:\Users\Administrator\Downloads\Awareline - NextGen7 release ‎2023‎-12-25-‏11-09-05.jar!\net\minecraft\network\play\client\C13PacketPlayerAbilities.class
+ * Java compiler version: 8 (52.0)
+ * JD-Core Version:       1.1.3
+ */
